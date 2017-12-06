@@ -52,7 +52,7 @@ deploy:
 
 before_deploy:
   cmd: |
-    Rscript -e "install.packages('drat')"
+    Rscript -e "install.packages('drat', repos = 'https://cloud.r-project.org')"
     git clone --depth 1 https://$GH_TOKEN@github.com/inbo/drat.git ../drat --branch=gh-pages
     Rscript -e "drat::insertPackage(list.files(pattern = 'tar.gz'), '../drat')"
     cd ../drat
