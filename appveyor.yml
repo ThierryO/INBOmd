@@ -57,6 +57,7 @@ before_deploy:
     git config --global user.email "bmk@inbo.be"
     git config --global user.name "INBO CI bot"
     Rscript -e "drat::insertPackage(list.files(pattern = 'tar.gz'), '../drat')"
+    Rscript -e "drat::insertPackage(list.files(pattern = 'zip'), '../drat')"
     cd ../drat
     git commit --all -m "INBOmd from appveyor"
     git push origin
