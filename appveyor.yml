@@ -53,9 +53,11 @@ deploy:
 before_deploy:
   cmd: |
     Rscript -e "install.packages('drat', repos = 'https://cloud.r-project.org')"
-    git clone --depth 1 $DRAT_URL ../drat --branch=gh-pages
     git config --global user.email "thierry_onkelinx@inbo.be"
     git config --global user.name "ThierryO"
+    git clone --depth 1 https://github.com/inbo/drat.git ../drat --branch=gh-pages
+    git remote rm origin
+    git remote add origin https://ThierryO:$GH_TOKEN@github.com/inbo/drat.git
     Rscript -e "drat::insertPackage(list.files(pattern = 'tar.gz'), '../drat')"
     Rscript -e "drat::insertPackage(list.files(pattern = 'zip'), '../drat')"
     cd ../drat
