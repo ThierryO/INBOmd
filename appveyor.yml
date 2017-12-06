@@ -52,14 +52,14 @@ deploy:
   - provider: GitHub
     artifact: '.*\.(tar\.gz|zip)'
     force_update: true
-    auth_token: $env:access_token
+    auth_token: '$env:access_token'
 
 before_deploy:
   - Rscript -e "install.packages('drat', repos = 'https://cloud.r-project.org')"
   - git config --global credential.helper store
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
-  - git config --global user.email "thierry_onkelinx@inbo.be"
-  - git config --global user.name "ThierryO"
+  - git config --global user.email "bmk@inbo.be"
+  - git config --global user.name "INBO CI"
   - git clone --depth 1 https://github.com/inbo/drat.git ../drat --branch=gh-pages
   - git remote rm origin
   - git remote add origin https://ThierryO:$GH_TOKEN@github.com/inbo/drat.git
