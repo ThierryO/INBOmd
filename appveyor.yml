@@ -7,10 +7,6 @@ init:
         Invoke-WebRequest http://raw.github.com/krlmlr/r-appveyor/master/scripts/appveyor-tool.ps1 -OutFile "..\appveyor-tool.ps1"
         Import-Module '..\appveyor-tool.ps1'
 
-environment:
-  access_token:
-    secure: yysQI1zM7yUTewFfHSAPixDMQPH2/Zik3AxI/WSOSM3eHOttl5ZzXbxrb6PjUn5y
-
 install:
   ps: Bootstrap
 
@@ -45,6 +41,22 @@ artifacts:
   - path: '\*_*.zip'
     name: Bits
 
+  - path: 'DESCRIPTION'
+    name: pkgdown
+
+  - path: 'LICENSE'
+    name: pkgdown
+
+  - path: 'man'
+    name: pkgdown
+
+  - path: '*.md'
+    name: pkgdown
+
+environment:
+  access_token:
+    secure: yysQI1zM7yUTewFfHSAPixDMQPH2/Zik3AxI/WSOSM3eHOttl5ZzXbxrb6PjUn5y
+
 deploy:
   - provider: GitHub
     artifact: '.*\.(tar\.gz|zip)'
@@ -53,7 +65,8 @@ deploy:
       secure: yysQI1zM7yUTewFfHSAPixDMQPH2/Zik3AxI/WSOSM3eHOttl5ZzXbxrb6PjUn5y
 
 before_deploy:
-  - Rscript -e "install.packages('drat', repos = 'https://cloud.r-project.org')"
+  - Rscript -e "install.packages(c('drat', 'devtools'), repos = 'https://cloud.r-project.org')"
+  - Rscript -e "devtools::instal_github('hadley/pkgdown')"
   - git config --global credential.helper store
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
   - git config --global user.email "bmk@inbo.be"
@@ -61,8 +74,8 @@ before_deploy:
   - git clone --depth 1 https://github.com/inbo/drat.git drat --branch=gh-pages
   - Rscript -e "drat::insertPackage(list.files(pattern = 'tar.gz'), 'drat')"
   - Rscript -e "drat::insertPackage(list.files(pattern = 'zip'), 'drat')"
+  - Rscript -e "pkgdown::build_site(path = 'drat/docs/inbomd')"
   - cd drat
   - git add --all
   - git commit -m "INBOmd from appveyor"
   - git push origin
-  - cd ..
