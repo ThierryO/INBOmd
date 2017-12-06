@@ -59,4 +59,4 @@ before_deploy:
     Rscript -e "drat::insertPackage(list.files(pattern = 'tar.gz'), '../drat')"
     cd ../drat
     git commit --all -m "INBOmd from appveyor"
-    git push 2>err.txt
+    git push origin
