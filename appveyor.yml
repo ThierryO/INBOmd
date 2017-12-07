@@ -56,7 +56,7 @@ after_test:
   - ps: Invoke-WebRequest https://github.com/jgm/pandoc/releases/download/2.0.4/pandoc-2.0.4-windows.zip -OutFile "pandoc-2.0.4-windows.zip"
   - unzip pandoc-2.0.4-windows.zip
   - rm pandoc-2.0.4-windows.zip
-  - set PATH=%PATH%;pandoc-2.0.4-windows
+  - set PATH=%PATH%;%CD%\pandoc-2.0.4-windows
   - Rscript -e "install.packages(c('drat', 'devtools'), repos = 'https://cloud.r-project.org')"
   - Rscript -e "devtools::install_github('hadley/pkgdown')"
   - git config --global credential.helper store
