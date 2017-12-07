@@ -47,10 +47,13 @@ artifacts:
   - path: 'LICENSE'
     name: pkgdown
 
-  - path: 'R'
+  - path: 'R\*.*'
     name: pkgdown
 
-  - path: 'man'
+  - path: 'man\*.*'
+    name: pkgdown
+
+  - path: 'inst\*.*'
     name: pkgdown
 
   - path: '*.md'
