@@ -52,7 +52,7 @@ deploy:
     auth_token:
       secure: yysQI1zM7yUTewFfHSAPixDMQPH2/Zik3AxI/WSOSM3eHOttl5ZzXbxrb6PjUn5y
 
-before_deploy:
+after_test:
   - Rscript -e "install.packages(c('drat', 'devtools'), repos = 'https://cloud.r-project.org')"
   - Rscript -e "devtools::install_github('hadley/pkgdown')"
   - git config --global credential.helper store
