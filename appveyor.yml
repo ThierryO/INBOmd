@@ -41,24 +41,6 @@ artifacts:
   - path: '\*_*.zip'
     name: Bits
 
-  - path: 'DESCRIPTION'
-    name: pkgdown
-
-  - path: 'LICENSE'
-    name: pkgdown
-
-  - path: 'R\*.*'
-    name: pkgdown
-
-  - path: 'man\*.*'
-    name: pkgdown
-
-  - path: 'inst\*.*'
-    name: pkgdown
-
-  - path: '*.md'
-    name: pkgdown
-
 environment:
   access_token:
     secure: yysQI1zM7yUTewFfHSAPixDMQPH2/Zik3AxI/WSOSM3eHOttl5ZzXbxrb6PjUn5y
@@ -80,7 +62,6 @@ before_deploy:
   - git clone --depth 1 https://github.com/inbo/drat.git drat --branch=gh-pages
   - Rscript -e "drat::insertPackage(list.files(pattern = 'tar.gz'), 'drat')"
   - Rscript -e "drat::insertPackage(list.files(pattern = 'zip'), 'drat')"
-  - Rscript -e "pkgdown::build_site(path = 'drat/docs/inbomd')"
   - cd drat
   - Rscript -e "rmarkdown::render('index.Rmd')"
   - git add --all
