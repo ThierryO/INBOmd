@@ -47,6 +47,9 @@ artifacts:
   - path: 'LICENSE'
     name: pkgdown
 
+  - path: 'R'
+    name: pkgdown
+
   - path: 'man'
     name: pkgdown
 
@@ -65,7 +68,7 @@ deploy:
       secure: yysQI1zM7yUTewFfHSAPixDMQPH2/Zik3AxI/WSOSM3eHOttl5ZzXbxrb6PjUn5y
 
 before_deploy:
-  - Rscript -e "install.packages(c('drat', 'devtools', 'rmarkdown'), repos = 'https://cloud.r-project.org')"
+  - Rscript -e "install.packages(c('drat', 'devtools'), repos = 'https://cloud.r-project.org')"
   - Rscript -e "devtools::install_github('hadley/pkgdown')"
   - git config --global credential.helper store
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
