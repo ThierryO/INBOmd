@@ -65,8 +65,8 @@ deploy:
       secure: yysQI1zM7yUTewFfHSAPixDMQPH2/Zik3AxI/WSOSM3eHOttl5ZzXbxrb6PjUn5y
 
 before_deploy:
-  - Rscript -e "install.packages(c('drat', 'devtools'), repos = 'https://cloud.r-project.org')"
-  - Rscript -e "devtools::instal_github('hadley/pkgdown')"
+  - Rscript -e "install.packages(c('drat', 'devtools', 'rmarkdown'), repos = 'https://cloud.r-project.org')"
+  - Rscript -e "devtools::install_github('hadley/pkgdown')"
   - git config --global credential.helper store
   - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
   - git config --global user.email "bmk@inbo.be"
@@ -76,6 +76,7 @@ before_deploy:
   - Rscript -e "drat::insertPackage(list.files(pattern = 'zip'), 'drat')"
   - Rscript -e "pkgdown::build_site(path = 'drat/docs/inbomd')"
   - cd drat
+  - Rscript -e "rmarkdown::render('index.Rmd')"
   - git add --all
   - git commit -m "INBOmd from appveyor"
   - git push origin
